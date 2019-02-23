@@ -18,11 +18,8 @@ class IssueTrackerView(APIView):
         :return: incremented page count if next pages exists, else 0 based on response count
         """
         for val in resultant:
-            if isinstance(val, str):
-                print(val)
             if "pull_request" not in val.keys():
                 if val not in open_issues_list:
-                        # append w/o comma, fix using update
                     open_issues_list.append(val)
         if len(resultant) >= 30:
             i = i + 1
@@ -52,6 +49,7 @@ class IssueTrackerView(APIView):
         start_url = "https://api.github.com/repos/"
 
         url = request.GET.get('url').split('/')
+        print(url)
         name = url[-2]+ '/' + url[-1]
         page_url = 'page=' + str(i)
         result_url = start_url + name + '/issues?state=open;'
