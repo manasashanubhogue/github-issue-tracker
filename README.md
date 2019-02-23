@@ -32,3 +32,6 @@ $ python manage.py runserver
 ## Solution
 Given public github url : Fetch the number of open issues using github API's . Based on filters (days), using datetime lib, filter the data.
 
+## Edge Cases:
+1. Public/ Private or invalid repo : Appropriate message
+2. API limit exceeded
