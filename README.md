@@ -29,6 +29,6 @@ $ python manage.py createsuperuser
 $ python manage.py runserver
 ```
 
+## Solution
+Given public github url : Fetch the number of open issues using github API's . Based on filters (days), using datetime lib, filter the data.
 
- 
- 
