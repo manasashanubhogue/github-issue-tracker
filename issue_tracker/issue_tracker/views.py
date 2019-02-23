@@ -2,7 +2,10 @@ from rest_framework.views import APIView
 from django.http.response import HttpResponse
 import requests
 from datetime import datetime, timedelta
+from rest_framework.response import Response
+import logging
 
+logger = logging.getLogger('django.server')
 class IssueTrackerView(APIView):
     """
     API view to track issues of a given public repo
@@ -15,6 +18,8 @@ class IssueTrackerView(APIView):
         :return: incremented page count if next pages exists, else 0 based on response count
         """
         for val in resultant:
+            if isinstance(val, str):
+                print(val)
             if "pull_request" not in val.keys():
                 if val not in open_issues_list:
                         # append w/o comma, fix using update
@@ -66,10 +71,17 @@ class IssueTrackerView(APIView):
         elif response.status_code == 404:
             if "message" in response.json().keys():
                 data = {
-                    "message" : "Repo not found, or it's not public repo. Please check"
+                    "message" : "Repository not found, or it's not public Repository. Please check"
                 }
-                print(data)
-                return HttpResponse(data, status=200)
+                logger.error(data)
+                return Response(data, status=200)
+        elif response.status_code == 403:
+            if "message" in response.json().keys():
+                data = {
+                    "message": response.json()['message']
+                }
+                logger.error(data)
+                return Response(data, status=200)
 
 
         issues_in_last_24_hrs = 0
@@ -83,8 +95,6 @@ class IssueTrackerView(APIView):
             elif val['created_at'] <= difference_24_hrs.isoformat() and val[
                 'created_at'] >= difference_7days.isoformat():
                 issues_between_1dayto_7day = issues_between_1dayto_7day + 1
-                # else:
-                # issues_more_than_7days = issues_more_than_7days + 1
         issues_more_than_7days = len(open_issues_list) - (issues_in_last_24_hrs + issues_between_1dayto_7day)
         result = {
             'open_issues': len(open_issues_list),
@@ -92,13 +102,7 @@ class IssueTrackerView(APIView):
             'issues_between_1dayto_7day': issues_between_1dayto_7day,
             'issues_more_than_7days': issues_more_than_7days
         }
-        print(result)
-        return HttpResponse(result, status=200)
-
-#edge cases : if limit exceeds
-#if no issues
-#if private repo
-
+        return Response(result, status=200)
 
 
 

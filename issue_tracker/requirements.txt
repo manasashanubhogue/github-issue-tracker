@@ -1,0 +1,8 @@
+Django==2.0.5
+django-cors-headers==2.4.0
+pytz==2018.9
+whitenoise==3.3.0
+djangorestframework==3.9.0
+requests==2.20.1
+gunicorn==19.9.0
+
