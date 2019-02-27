@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -139,7 +140,8 @@ WHITENOISE_ROOT = os.path.join(PROJECT_ROOT, 'public')
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-from corsheaders.defaults import default_headers
 CORS_ALLOW_HEADERS = default_headers + (
     'access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,access-control-allow-origin',
 )
+
+ACCESS_TOKEN = os.environ.get('GITHUB_ACCESS_TOKEN', '')

@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from rest_framework.response import Response
 import logging
 
+from issue_tracker.settings import ACCESS_TOKEN
+
 logger = logging.getLogger('django.server')
 class IssueTrackerView(APIView):
     """
@@ -32,8 +34,7 @@ class IssueTrackerView(APIView):
         :param page_url: end point of page count in the url
         :return: response of git api call to fetch number of open issues
         """
-
-        url = result_url+ page_url
+        url = result_url+ page_url + ';access_token=' + ACCESS_TOKEN
         response = requests.get(url)
         return response
 
