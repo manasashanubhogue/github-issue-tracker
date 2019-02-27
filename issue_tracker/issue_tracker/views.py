@@ -49,7 +49,6 @@ class IssueTrackerView(APIView):
         start_url = "https://api.github.com/repos/"
 
         url = request.GET.get('url').split('/')
-        print(url)
         name = url[-2]+ '/' + url[-1]
         page_url = 'page=' + str(i)
         result_url = start_url + name + '/issues?state=open;'
