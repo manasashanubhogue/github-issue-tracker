@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
 from issue_tracker.views import IssueTrackerView
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/get-open-issue/', IssueTrackerView.as_view(), name="validate_token"),
+    url(r'^api/get-open-issue/', cache_page(60 * 15)(IssueTrackerView.as_view()), name="validate_token"),
 ]
